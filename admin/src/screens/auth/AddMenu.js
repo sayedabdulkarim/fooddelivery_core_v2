@@ -155,7 +155,7 @@ const AddMenu = () => {
           </Col>
           <Col span={12}>
             <Form.Item
-              label="Restaurant Image"
+              label="Item Image"
               name="imageUpload" // Make sure this matches your form model
               valuePropName="value"
               getValueFromEvent={(e) => e}

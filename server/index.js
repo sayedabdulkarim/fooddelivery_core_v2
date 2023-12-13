@@ -25,8 +25,10 @@ connectDb();
 const app = express();
 
 //
-app.use(express.json()); // to get req.body
-app.use(express.urlencoded({ extended: true })); //to get form data
+// Increase the limit for parsed data (JSON)
+app.use(express.json({ limit: "50mb" })); // Adjust '50mb' as needed
+// Increase the limit for parsed data (URL-encoded)
+app.use(express.urlencoded({ limit: "50mb", extended: true })); // Adjust '50mb' as needed
 
 const corsOptions = {
   origin: [

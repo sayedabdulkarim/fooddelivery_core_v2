@@ -54,6 +54,7 @@ const RestaurantForm = ({ onSave }) => {
       discountSubHeader,
       cuisines,
       badges,
+      imageUpload,
     } = values;
 
     // console.log(values, " vvv");
@@ -73,7 +74,7 @@ const RestaurantForm = ({ onSave }) => {
       avgRating,
       avgRatingString: avgRating,
       badges,
-      cloudinaryImageId: imageBase64,
+      cloudinaryImageId: imageUpload,
       costForTwo,
       cuisines,
       isOpen,
@@ -90,7 +91,10 @@ const RestaurantForm = ({ onSave }) => {
       veg: isVeg,
     };
 
-    console.log("Formatted values for submission:", formattedValues);
+    console.log("Formatted values for submission:", {
+      formattedValues,
+      // values,
+    });
     // onSave(formattedValues);
     try {
       const res = await addRestaurant(formattedValues).unwrap();

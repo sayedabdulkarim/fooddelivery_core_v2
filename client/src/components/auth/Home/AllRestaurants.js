@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import TopRestaurantOfferBadge from "../../svgs/TopRestaurantOfferBadge";
 import { RestaurantsRatingStar } from "../../../utils/svgs";
-import { arrayToString } from "../../../utils/commonHelper";
+import { arrayToString, isRestaurantOpen } from "../../../utils/commonHelper";
 import FilterStrip from "./FilterStrip";
 const AllRestaurants = ({ isLoadingHomePage }) => {
   //misc
@@ -65,14 +65,25 @@ const AllRestaurants = ({ isLoadingHomePage }) => {
                 sla,
                 cuisines,
                 areaName,
+                availability,
               } = item;
 
               return (
-                <li key={_id} onClick={() => handleNavigation(name, _id)}>
+                <li
+                  key={_id}
+                  onClick={() => handleNavigation(name, _id)}
+                  className={`${
+                    isRestaurantOpen(
+                      availability?.startTime,
+                      availability?.nextCloseTime
+                    )
+                      ? ""
+                      : "isCLosed"
+                  }`}
+                >
                   {<TopRestaurantOfferBadge isShow={badges} />}
                   <div className="image_wrapper">
                     <img
-                      // src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${cloudinaryImageId}`}
                       src={
                         cloudinaryImageId.startsWith("data:image")
                           ? cloudinaryImageId
@@ -93,7 +104,12 @@ const AllRestaurants = ({ isLoadingHomePage }) => {
                   {/* detail wrapper */}
                   <div className="detail_wrapper">
                     <div>
-                      <div className="sc-aXZVg kIsYLE">{name}</div>
+                      <div
+                        className="sc-aXZVg kIsYLE"
+                        onClick={() => console.log(item, " itemm")}
+                      >
+                        {name}
+                      </div>
                     </div>
                     <div className="sw-restaurant-card-subtext-container">
                       <div>
@@ -117,10 +133,6 @@ const AllRestaurants = ({ isLoadingHomePage }) => {
           </ul>
         </div>
       </div>
-      <h1>AllRestaurants</h1>
-      <h1>AllRestaurants</h1>
-      <h1>AllRestaurants</h1>
-      <h1>AllRestaurants</h1>
     </div>
   );
 };

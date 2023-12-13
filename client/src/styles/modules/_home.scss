@@ -114,6 +114,13 @@
           justify-content: space-between;
 
           li {
+
+            &.isCLosed {
+              opacity: 0.5;
+              pointer-events: none; 
+              cursor: not-allowed;
+            }
+
             /* border: 1px solid red; */
             box-sizing: border-box;
 

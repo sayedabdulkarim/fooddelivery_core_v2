@@ -114,6 +114,23 @@ const filterObjectsByIds = (objects, ids) => {
   return objects.filter((obj) => ids.includes(obj._id));
 };
 
+const isRestaurantOpen = (startTime, nextCloseTime) => {
+  const now = new Date();
+  const currentDate = now.toISOString().slice(0, 10); // Format as 'YYYY-MM-DD'
+
+  // Create date objects for start and end times
+  const startTimeDate = new Date(`${currentDate}T${startTime}:00.000Z`);
+  const endTimeDate = new Date(`${currentDate}T${nextCloseTime}:00.000Z`);
+
+  // Adjust for local timezone offset
+  const userTimezoneOffset = now.getTimezoneOffset() * 60000;
+  const localStartTime = new Date(startTimeDate.getTime() + userTimezoneOffset);
+  const localEndTime = new Date(endTimeDate.getTime() + userTimezoneOffset);
+
+  // Check if current time is within operating hours
+  return now >= localStartTime && now <= localEndTime;
+};
+
 export {
   toggleTheme,
   handleShowAlert,
@@ -126,4 +143,5 @@ export {
   getRestaurantById,
   calculateTotalPrice,
   filterObjectsByIds,
+  isRestaurantOpen,
 };

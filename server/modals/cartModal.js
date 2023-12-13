@@ -33,7 +33,6 @@ const cartSchema = new mongoose.Schema({
   },
   items: [
     {
-      id: String,
       name: { type: String, required: true },
       description: String,
       imageId: String,
@@ -41,7 +40,7 @@ const cartSchema = new mongoose.Schema({
       price: { type: Number, required: true },
       variants: [{}], // This can be more detailed based on your variant structure
       offers: [{}], // Similarly, adjust as needed for your offers structure
-      _id: { type: String, required: true },
+      // _id: { type: String, required: true },
       count: { type: Number, required: true, min: 1 },
     },
   ],

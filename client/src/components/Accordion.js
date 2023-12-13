@@ -62,8 +62,6 @@ const MenuItem = ({ item }) => {
                     ? imageId
                     : `https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/${imageId}`
                 }
-
-                // src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/${imageId}`}
               />
             </button>
           </div>

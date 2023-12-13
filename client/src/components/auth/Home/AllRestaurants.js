@@ -72,7 +72,12 @@ const AllRestaurants = ({ isLoadingHomePage }) => {
                   {<TopRestaurantOfferBadge isShow={badges} />}
                   <div className="image_wrapper">
                     <img
-                      src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${cloudinaryImageId}`}
+                      // src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${cloudinaryImageId}`}
+                      src={
+                        cloudinaryImageId.startsWith("data:image")
+                          ? cloudinaryImageId
+                          : `https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/${cloudinaryImageId}`
+                      }
                       alt={name}
                       loading="lazy"
                     />

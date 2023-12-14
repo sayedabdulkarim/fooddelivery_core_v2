@@ -1,19 +1,54 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Skeleton } from "antd";
 import OrderActionModal from "./OrderActionModal";
+import { useUpdateOrderItemStatusMutation } from "../../../apiSlices/ordersApiSlice";
+import { handleShowAlert } from "../../../utils/commonHelper";
 
 const Index = ({
   isLoadingetGetOrdersDetailsFromRestaurantId,
   getOrdersDetailsFromRestaurantId,
 }) => {
+  const dispatch = useDispatch();
+  const { restaurantDetails } = useSelector((state) => state.restaurantReducer);
   const { orders } = getOrdersDetailsFromRestaurantId || { orders: [] };
-
+  //queries n mutation
+  const [
+    updateOrderItemStatus,
+    {
+      isLoading: updateOrderItemStatusLoading,
+      error: updateOrderItemStatusError,
+    },
+  ] = useUpdateOrderItemStatusMutation();
   //state
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   //func
-  const handleOrderAction = (data) => {
-    console.log({ data, selectedItem }, " ddd");
+  const handleOrderAction = async (data) => {
+    // console.log({ data, selectedItem }, " ddd");
+    const { _id, items } = selectedItem;
+    // restaurantId: selectedItem?.restaurantId,
+    const payload = {
+      orderId: _id,
+      itemId: items[0]?._id,
+      newStatus: data?.action,
+    };
+    console.log({ payload, items }, " pp");
+
+    ///
+    try {
+      const res = await updateOrderItemStatus(
+        selectedItem?.restaurantId,
+        payload
+      ).unwrap();
+      console.log(res, " resss");
+      handleShowAlert(dispatch, "success", res?.message);
+      // dispatch(setCredentials({ ...res }));
+      // navigate("/");
+    } catch (err) {
+      handleShowAlert(dispatch, "error", err?.data?.message);
+      console.log(err, " errr");
+    }
   };
 
   const handleOpenModal = (data) => {

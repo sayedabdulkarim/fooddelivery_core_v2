@@ -13,7 +13,7 @@ router.get(
   getOrdersDetailsFromRestaurantId
 );
 
-router.get(
+router.put(
   "/updateOrderStatus/:restaurantId",
   protectedAdminRoutesWithParser,
   updateOrderItemStatus

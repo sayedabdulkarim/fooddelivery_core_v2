@@ -9,7 +9,17 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/ordersdetails/${restaurantId}`,
       }),
     }),
+    updateOrderItemStatus: builder.mutation({
+      query: (restaurantId, data) => ({
+        url: `${USERS_URL}/updateOrderStatus/${restaurantId}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetOrdersDetailsFromRestaurantIdQuery } = ordersApiSlice;
+export const {
+  useGetOrdersDetailsFromRestaurantIdQuery,
+  useUpdateOrderItemStatusMutation,
+} = ordersApiSlice;

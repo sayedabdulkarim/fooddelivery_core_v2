@@ -126,6 +126,9 @@ const Home = () => {
                   isLoadingetGetOrdersDetailsFromRestaurantId={
                     isLoadingetGetOrdersDetailsFromRestaurantId
                   }
+                  getOrdersDetailsFromRestaurantIdRefetch={
+                    getOrdersDetailsFromRestaurantIdRefetch
+                  }
                 />
               </div>
             </div>

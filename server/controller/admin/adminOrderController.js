@@ -34,6 +34,15 @@ const updateOrderItemStatus = asyncHandler(async (req, res) => {
   const { restaurantId } = req.params;
   const { orderId, itemId, newStatus } = req.body;
 
+  // console.log(
+  //   {
+  //     restaurantId,
+  //     orderId,
+  //     itemId,
+  //     newStatus,
+  //   },
+  //   " checkck"
+  // );
   // Find the specific order in the restaurant
   const order = await CartModal.findOne({
     _id: orderId,
@@ -45,12 +54,13 @@ const updateOrderItemStatus = asyncHandler(async (req, res) => {
   }
 
   // Find the item in the order and update its status
-  const item = order.items.find((item) => item._id.toString() === itemId);
-  if (item) {
-    item.status = newStatus; // Update the status of the item
-  } else {
-    return res.status(404).json({ message: "Item not found in order." });
-  }
+  order.status = newStatus;
+  // const item = order.items.find((item) => item._id.toString() === itemId);
+  // if (item) {
+  //   item.status = newStatus; // Update the status of the item
+  // } else {
+  //   return res.status(404).json({ message: "Item not found in order." });
+  // }
 
   // Save the updated order
   await order.save();

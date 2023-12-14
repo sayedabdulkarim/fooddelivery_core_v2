@@ -10,10 +10,10 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     updateOrderItemStatus: builder.mutation({
-      query: (restaurantId, data) => ({
+      query: ({ restaurantId, payload }) => ({
         url: `${USERS_URL}/updateOrderStatus/${restaurantId}`,
         method: "PUT",
-        body: data,
+        body: payload,
       }),
     }),
   }),

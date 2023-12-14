@@ -47,7 +47,7 @@ const cartSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    enum: ["active", "completed", "pending"],
+    enum: ["active", "accept", "completed", "reject", "pending"],
     default: "active",
   },
   finalCost: {

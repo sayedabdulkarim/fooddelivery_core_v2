@@ -8,6 +8,7 @@ import { handleShowAlert } from "../../../utils/commonHelper";
 const Index = ({
   isLoadingetGetOrdersDetailsFromRestaurantId,
   getOrdersDetailsFromRestaurantId,
+  getOrdersDetailsFromRestaurantIdRefetch,
 }) => {
   const dispatch = useDispatch();
   const { restaurantDetails } = useSelector((state) => state.restaurantReducer);
@@ -27,7 +28,6 @@ const Index = ({
   const handleOrderAction = async (data) => {
     // console.log({ data, selectedItem }, " ddd");
     const { _id, items } = selectedItem;
-    // restaurantId: selectedItem?.restaurantId,
     const payload = {
       orderId: _id,
       itemId: items[0]?._id,
@@ -37,14 +37,13 @@ const Index = ({
 
     ///
     try {
-      const res = await updateOrderItemStatus(
-        selectedItem?.restaurantId,
-        payload
-      ).unwrap();
+      const res = await updateOrderItemStatus({
+        restaurantId: selectedItem?.restaurantId,
+        payload: payload,
+      }).unwrap();
       console.log(res, " resss");
+      getOrdersDetailsFromRestaurantIdRefetch();
       handleShowAlert(dispatch, "success", res?.message);
-      // dispatch(setCredentials({ ...res }));
-      // navigate("/");
     } catch (err) {
       handleShowAlert(dispatch, "error", err?.data?.message);
       console.log(err, " errr");

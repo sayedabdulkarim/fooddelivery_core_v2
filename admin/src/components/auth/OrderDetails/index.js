@@ -13,8 +13,15 @@ const Index = ({
   const [selectedItem, setSelectedItem] = useState(null);
   //func
   const handleOrderAction = (data) => {
-    console.log(data, " ddd");
+    console.log({ data, selectedItem }, " ddd");
   };
+
+  const handleOpenModal = (data) => {
+    setIsModalVisible(true);
+    setSelectedItem(data);
+  };
+
+  //
 
   return (
     <div>
@@ -33,7 +40,7 @@ const Index = ({
             <div className="order_listing_wrapper">
               <h2>Orders Listing</h2>
               <ul>
-                {orders?.map((item) => {
+                {orders?.map((orderItem) => {
                   const {
                     _id,
                     finalCost,
@@ -41,7 +48,7 @@ const Index = ({
                     createdAt,
                     items,
                     status,
-                  } = item;
+                  } = orderItem;
                   return (
                     <li key={_id} onClick={() => console.log(orders)}>
                       <div className="left_section">
@@ -74,7 +81,7 @@ const Index = ({
                       </div>
                       <div className="right_section">
                         <div>Status : {status}</div>
-                        <button onClick={() => setIsModalVisible(true)}>
+                        <button onClick={() => handleOpenModal(orderItem)}>
                           Accept/ Reject
                         </button>
                       </div>
@@ -83,6 +90,7 @@ const Index = ({
                 })}
               </ul>
               <OrderActionModal
+                selectedItem={selectedItem}
                 isModalVisible={isModalVisible}
                 setIsModalVisible={setIsModalVisible}
                 handleOrderAction={handleOrderAction}

@@ -4,6 +4,7 @@ import { Modal, Radio, Select } from "antd";
 const { Option } = Select;
 
 const OrderActionModal = ({
+  selectedItem,
   isModalVisible,
   setIsModalVisible,
   handleOrderAction,
@@ -13,7 +14,7 @@ const OrderActionModal = ({
 
   const handleOk = () => {
     handleOrderAction({ action, declineReason });
-    setIsModalVisible(false);
+    // setIsModalVisible(false);
   };
 
   const handleCancel = () => {

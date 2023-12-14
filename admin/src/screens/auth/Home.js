@@ -19,6 +19,7 @@ import RestaurantDetailsComponent from "../../components/auth/Home/RestaurantDet
 import { skipToken } from "@reduxjs/toolkit/query/react"; // Import skipToken
 import CategoryModal from "../../components/auth/Menu/category";
 import MenuAccordion from "../../components/auth/Menu/Accordion/MenuAccordion";
+import OrderListContainer from "../../components/auth/OrderDetails";
 
 const Home = () => {
   //misc
@@ -95,28 +96,38 @@ const Home = () => {
           />
           {getRestaurantMenu ? (
             // {!areAllItemsEmpty(getRestaurantMenu?.restaurantMenu?.menu || []) ? (
-            <div className="menu_list_container">
-              <div className="add_menu_container">
-                <button onClick={() => dispatch(setMenuCategoryModal(true))}>
-                  Add Menu
-                </button>
-                <CategoryModal />
-              </div>
+            <div>
+              {/* menu_list */}
+              <div className="menu_list_container">
+                <div className="add_menu_container">
+                  <button onClick={() => dispatch(setMenuCategoryModal(true))}>
+                    Add Menu
+                  </button>
+                  <CategoryModal />
+                </div>
 
-              <h2
-                onClick={() =>
-                  console.log(getRestaurantMenu?.restaurantMenu?.menu)
-                }
-              >
-                Menu Items
-              </h2>
-              {/* <Accordion
-                categories={getRestaurantMenu?.restaurantMenu?.menu || []}
-                categoryRefs={categoryRefs}
-              /> */}
-              <MenuAccordion
-                menuData={getRestaurantMenu?.restaurantMenu?.menu || []}
-              />
+                <h2
+                  onClick={() =>
+                    console.log(getRestaurantMenu?.restaurantMenu?.menu)
+                  }
+                >
+                  Menu Items
+                </h2>
+                <MenuAccordion
+                  menuData={getRestaurantMenu?.restaurantMenu?.menu || []}
+                />
+              </div>
+              {/* order_list */}
+              <div className="order_list_container">
+                <OrderListContainer
+                  getOrdersDetailsFromRestaurantId={
+                    getOrdersDetailsFromRestaurantId
+                  }
+                  isLoadingetGetOrdersDetailsFromRestaurantId={
+                    isLoadingetGetOrdersDetailsFromRestaurantId
+                  }
+                />
+              </div>
             </div>
           ) : (
             <div className="add_menu_container">

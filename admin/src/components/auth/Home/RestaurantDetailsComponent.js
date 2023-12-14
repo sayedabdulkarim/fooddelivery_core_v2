@@ -2,7 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Rate, Tag, Card } from "antd";
 
-const RestaurantDetailsComponent = ({ restaurantDetails, userDetails }) => {
+const RestaurantDetailsComponent = ({
+  restaurantDetails,
+  userDetails,
+  getOrdersDetailsFromRestaurantId,
+}) => {
   const { restaurantMenuDetails } = useSelector((state) => state.menuReducer);
   if (!restaurantDetails) {
     return <div>Loading restaurant details...</div>;
@@ -35,7 +39,12 @@ const RestaurantDetailsComponent = ({ restaurantDetails, userDetails }) => {
         className="title"
         onClick={() =>
           console.log(
-            { restaurantDetails, userDetails, restaurantMenuDetails },
+            {
+              restaurantDetails,
+              userDetails,
+              restaurantMenuDetails,
+              getOrdersDetailsFromRestaurantId,
+            },
             " userDett"
           )
         }

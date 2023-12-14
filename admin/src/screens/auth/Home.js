@@ -7,7 +7,9 @@ import {
   useGetUserRestaurantDetailsQuery,
   useGetRestaurantMenuQuery,
 } from "../../apiSlices/restaurantApiSlice";
+import { useGetOrdersDetailsFromRestaurantIdQuery } from "../../apiSlices/ordersApiSlice";
 import { setRestaurantDetails } from "../../slices/restaurantSlice";
+
 import {
   setMenuCategoryModal,
   setRestaurantMenuDetails,
@@ -16,8 +18,6 @@ import ProgressBar from "../../components/Progressbar";
 import RestaurantDetailsComponent from "../../components/auth/Home/RestaurantDetailsComponent";
 import { skipToken } from "@reduxjs/toolkit/query/react"; // Import skipToken
 import CategoryModal from "../../components/auth/Menu/category";
-import { areAllItemsEmpty } from "../../utils/commonHelper";
-import { Accordion } from "../../components/auth/Menu/Accordion";
 import MenuAccordion from "../../components/auth/Menu/Accordion/MenuAccordion";
 
 const Home = () => {
@@ -41,6 +41,15 @@ const Home = () => {
   } = useGetRestaurantMenuQuery(restaurantDetails?._id ?? skipToken);
   // } = useGetRestaurantMenuQuery("6562b871e80e73e2cb0e696e");
 
+  const {
+    data: getOrdersDetailsFromRestaurantId,
+    refetch: getOrdersDetailsFromRestaurantIdRefetch,
+    isLoading: isLoadingetGetOrdersDetailsFromRestaurantId,
+  } = useGetOrdersDetailsFromRestaurantIdQuery(
+    restaurantDetails?._id ?? skipToken
+  );
+  // } = useGetRestaurantMenuQuery("6562b871e80e73e2cb0e696e");
+
   //async
   useEffect(() => {
     if (getUserRestaurantDetails) {
@@ -51,8 +60,13 @@ const Home = () => {
   useEffect(() => {
     if (restaurantDetails?._id) {
       getRestaurantMenuRefetch();
+      getOrdersDetailsFromRestaurantIdRefetch();
     }
-  }, [restaurantDetails, getRestaurantMenuRefetch]);
+  }, [
+    restaurantDetails,
+    getRestaurantMenuRefetch,
+    getOrdersDetailsFromRestaurantIdRefetch,
+  ]);
 
   useEffect(() => {
     if (getRestaurantMenu) {
@@ -77,6 +91,7 @@ const Home = () => {
           <RestaurantDetailsComponent
             restaurantDetails={restaurantDetails}
             userDetails={userInfo?.data}
+            getOrdersDetailsFromRestaurantId={getOrdersDetailsFromRestaurantId}
           />
           {getRestaurantMenu ? (
             // {!areAllItemsEmpty(getRestaurantMenu?.restaurantMenu?.menu || []) ? (

@@ -17,6 +17,7 @@ import cartRoutes from "./routes/cartRoute.js";
 import adminUserRoutes from "./routes/admin/adminUserRoutes.js";
 import adminRestaurantRoutes from "./routes/admin/adminRestaurantRoutes.js";
 import adminMenuRoutes from "./routes/admin/adminMenuRoutes.js";
+import adminOrderRoutes from "./routes/admin/adminOrderRoutes.js";
 
 const port = process.env.PORT || 5000;
 
@@ -65,6 +66,7 @@ app.use("/api/users", cartRoutes);
 app.use("/api/admin", adminUserRoutes);
 app.use("/api/admin", adminRestaurantRoutes);
 app.use("/api/admin", adminMenuRoutes);
+app.use("/api/admin", adminOrderRoutes);
 
 ////////////DEPLOYMENT //////////////
 

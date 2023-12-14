@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Skeleton } from "antd";
+import OrderActionModal from "./OrderActionModal";
 
 const Index = ({
   isLoadingetGetOrdersDetailsFromRestaurantId,
   getOrdersDetailsFromRestaurantId,
 }) => {
-  //   const { orders } = getOrdersDetailsFromRestaurantId;
   const { orders } = getOrdersDetailsFromRestaurantId || { orders: [] };
+
+  //state
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  //func
+  const handleOrderAction = (data) => {
+    console.log(data, " ddd");
+  };
 
   return (
     <div>
@@ -66,12 +74,19 @@ const Index = ({
                       </div>
                       <div className="right_section">
                         <div>Status : {status}</div>
-                        <button>Accept/ Reject</button>
+                        <button onClick={() => setIsModalVisible(true)}>
+                          Accept/ Reject
+                        </button>
                       </div>
                     </li>
                   );
                 })}
               </ul>
+              <OrderActionModal
+                isModalVisible={isModalVisible}
+                setIsModalVisible={setIsModalVisible}
+                handleOrderAction={handleOrderAction}
+              />
             </div>
           )}
         </>

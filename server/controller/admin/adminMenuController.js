@@ -125,4 +125,38 @@ const addItemToCategory = asyncHandler(async (req, res) => {
   });
 });
 
-export { addCategoryToRestaurant, addItemToCategory, getRestaurantMenu };
+// @desc    Update item stock status
+// @route   PUT /api/admin/updatestock/:restaurantId/:itemId
+// @access  Private
+const updateItemStock = asyncHandler(async (req, res) => {
+  const { restaurantId, itemId } = req.params;
+  const { inStock } = req.body; // Assuming you're sending { inStock: true/false }
+
+  // Find the restaurant with the given restaurantId and update the item directly
+  const result = await RestaurantDetailsModal.findOneAndUpdate(
+    { restaurantId, "menu.items._id": itemId },
+    { $set: { "menu.$[].items.$[item].inStock": inStock } },
+    {
+      new: true,
+      arrayFilters: [{ "item._id": itemId }],
+    }
+  );
+
+  if (result) {
+    res.json({
+      message: "Item stock status updated successfully",
+      restaurantMenu: result,
+    });
+  } else {
+    res.status(404).json({
+      message: "Item not found or Restaurant not found",
+    });
+  }
+});
+
+export {
+  addCategoryToRestaurant,
+  addItemToCategory,
+  getRestaurantMenu,
+  updateItemStock,
+};

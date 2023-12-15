@@ -6,6 +6,7 @@ import {
   addCategoryToRestaurant,
   addItemToCategory,
   getRestaurantMenu,
+  updateItemStock,
 } from "../../controller/admin/adminMenuController.js";
 
 router.post(
@@ -24,6 +25,12 @@ router.get(
   "/menu/:restaurantId",
   protectedAdminRoutesWithParser,
   getRestaurantMenu
+);
+
+router.put(
+  "/updatestock/:restaurantId/:itemId",
+  protectedAdminRoutesWithParser,
+  updateItemStock
 );
 
 export default router;

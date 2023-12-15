@@ -115,6 +115,7 @@ const Home = () => {
                 </h2>
                 <MenuAccordion
                   menuData={getRestaurantMenu?.restaurantMenu?.menu || []}
+                  getRestaurantMenuRefetch={getRestaurantMenuRefetch}
                 />
               </div>
               {/* order_list */}

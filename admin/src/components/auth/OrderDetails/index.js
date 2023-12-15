@@ -92,7 +92,7 @@ const Index = ({
                   return (
                     <li key={_id} onClick={() => console.log(orders)}>
                       <div className="left_section">
-                        {items?.map((item) => {
+                        {items?.map((item, index) => {
                           const {
                             count,
                             description,
@@ -105,6 +105,7 @@ const Index = ({
                           return (
                             <span key={_id} className="count">
                               <span className="name">{name}</span> x {count}
+                              {index !== items.length - 1 && ", "}
                             </span>
                           );
                         })}

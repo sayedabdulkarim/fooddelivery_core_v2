@@ -130,6 +130,7 @@ const Home = () => {
                   getOrdersDetailsFromRestaurantIdRefetch={
                     getOrdersDetailsFromRestaurantIdRefetch
                   }
+                  getRestaurantMenuRefetch={getRestaurantMenuRefetch}
                 />
               </div>
             </div>

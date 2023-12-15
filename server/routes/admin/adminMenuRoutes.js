@@ -5,6 +5,7 @@ import { protectedAdminRoutesWithParser } from "../../middleware/authMiddleware.
 import {
   addCategoryToRestaurant,
   addItemToCategory,
+  bulkUpdateItemStock,
   getRestaurantMenu,
   updateItemStock,
 } from "../../controller/admin/adminMenuController.js";
@@ -31,6 +32,12 @@ router.put(
   "/updatestock/:restaurantId/:itemId",
   protectedAdminRoutesWithParser,
   updateItemStock
+);
+
+router.put(
+  "/bulkupdatestock/:restaurantId",
+  protectedAdminRoutesWithParser,
+  bulkUpdateItemStock
 );
 
 export default router;

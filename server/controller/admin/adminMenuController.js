@@ -154,9 +154,49 @@ const updateItemStock = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Bulk update item stock status
+// @route   PUT /api/admin/bulkupdatestock/:restaurantId
+// @access  Private
+const bulkUpdateItemStock = asyncHandler(async (req, res) => {
+  const { restaurantId } = req.params;
+  const { itemIds, inStock } = req.body; // Now expecting an array of item IDs
+
+  // Find the restaurant and update multiple items within it
+  const result = await RestaurantDetailsModal.updateMany(
+    { restaurantId, "menu.items._id": { $in: itemIds } },
+    { $set: { "menu.$[].items.$[item].inStock": inStock } },
+    {
+      new: true,
+      arrayFilters: [{ "item._id": { $in: itemIds } }],
+    }
+  );
+
+  console.log(
+    {
+      restaurantId,
+      itemIds,
+      inStock,
+      result,
+    },
+    " bulkkkk"
+  );
+
+  if (result.nModified) {
+    res.json({
+      message: "Item stock statuses updated successfully",
+      modifiedCount: result.nModified,
+    });
+  } else {
+    res.status(404).json({
+      message: "No items updated, check if the restaurant or items exist",
+    });
+  }
+});
+
 export {
   addCategoryToRestaurant,
   addItemToCategory,
   getRestaurantMenu,
   updateItemStock,
+  bulkUpdateItemStock,
 };

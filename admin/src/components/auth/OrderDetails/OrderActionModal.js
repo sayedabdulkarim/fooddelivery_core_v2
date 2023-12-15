@@ -88,7 +88,7 @@ const OrderActionModal = ({
               >
                 <Checkbox.Group onChange={onCheckboxChange}>
                   {selectedItem?.items?.map((item) => (
-                    <Checkbox key={item._id} value={item.name}>
+                    <Checkbox key={item._id} value={item._id}>
                       {item.name}
                     </Checkbox>
                   ))}

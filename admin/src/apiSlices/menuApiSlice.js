@@ -30,6 +30,13 @@ export const restaurantApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    bulkUpdateItemStock: builder.mutation({
+      query: ({ restaurantId, itemIds, inStock }) => ({
+        url: `${USERS_URL}/bulkupdatestock/${restaurantId}`,
+        method: "PUT",
+        body: { itemIds, inStock },
+      }),
+    }),
   }),
 });
 
@@ -38,4 +45,5 @@ export const {
   useAddCategoryToRestaurantMutation,
   useAddItemToCategoryMutation,
   useUpdateItemStockMutation,
+  useBulkUpdateItemStockMutation,
 } = restaurantApiSlice;

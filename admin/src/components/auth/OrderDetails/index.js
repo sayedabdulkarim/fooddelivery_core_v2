@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Skeleton } from "antd";
 import OrderActionModal from "./OrderActionModal";
 import { useUpdateOrderItemStatusMutation } from "../../../apiSlices/ordersApiSlice";
+import { useBulkUpdateItemStockMutation } from "../../../apiSlices/menuApiSlice";
 import { handleShowAlert } from "../../../utils/commonHelper";
 
 const Index = ({
   isLoadingetGetOrdersDetailsFromRestaurantId,
   getOrdersDetailsFromRestaurantId,
   getOrdersDetailsFromRestaurantIdRefetch,
+  getRestaurantMenuRefetch,
 }) => {
   const dispatch = useDispatch();
   const { restaurantDetails } = useSelector((state) => state.restaurantReducer);
@@ -21,6 +23,11 @@ const Index = ({
       error: updateOrderItemStatusError,
     },
   ] = useUpdateOrderItemStatusMutation();
+
+  const [
+    bulkUpdateItemStock,
+    { isLoading: bulkUpdateItemStockLoading, error: bulkUpdateItemStockError },
+  ] = useBulkUpdateItemStockMutation();
   //state
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -30,7 +37,7 @@ const Index = ({
     const { _id, items } = selectedItem;
     const payload = {
       orderId: _id,
-      itemId: items[0]?._id,
+      // itemId: items[0]?._id,
       newStatus: data?.action,
       cancelledReason:
         data?.action === "reject"
@@ -39,8 +46,7 @@ const Index = ({
             : data?.reason
           : "",
     };
-    console.log({ payload, items, data }, " pp");
-
+    await handleBulkUpdateStockItemOnReject(data);
     ///
     try {
       const res = await updateOrderItemStatus({
@@ -49,10 +55,38 @@ const Index = ({
       }).unwrap();
       console.log(res, " resss");
       getOrdersDetailsFromRestaurantIdRefetch();
+      getRestaurantMenuRefetch();
       handleShowAlert(dispatch, "success", res?.message);
     } catch (err) {
       handleShowAlert(dispatch, "error", err?.data?.message);
       console.log(err, " errr");
+    }
+  };
+
+  const handleBulkUpdateStockItemOnReject = async (data) => {
+    const payload = {
+      itemIds: data?.outOfStockItems,
+      inStock: false,
+    };
+    // console.log(
+    //   { data, payload },
+    //   " dattaa from handleBulkUpdateStockItemOnReject"
+    // );
+
+    if (data?.action === "reject" && data?.reason === "Out Of Stock") {
+      try {
+        const res = await bulkUpdateItemStock({
+          restaurantId: selectedItem?.restaurantId,
+          itemIds: data?.outOfStockItems,
+          inStock: false,
+        }).unwrap();
+        console.log(res, " resss");
+        // getOrdersDetailsFromRestaurantIdRefetch();
+        handleShowAlert(dispatch, "success", res?.message);
+      } catch (err) {
+        handleShowAlert(dispatch, "error", err?.data?.message);
+        console.log(err, " errr");
+      }
     }
   };
 

@@ -181,10 +181,10 @@ const bulkUpdateItemStock = asyncHandler(async (req, res) => {
     " bulkkkk"
   );
 
-  if (result.nModified) {
+  if (result.modifiedCount > 0) {
     res.json({
       message: "Item stock statuses updated successfully",
-      modifiedCount: result.nModified,
+      modifiedCount: result.modifiedCount,
     });
   } else {
     res.status(404).json({

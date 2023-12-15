@@ -44,6 +44,7 @@ const cartSchema = new mongoose.Schema({
       count: { type: Number, required: true, min: 1 },
     },
   ],
+  cancelledReason: String,
   status: {
     type: String,
     required: true,

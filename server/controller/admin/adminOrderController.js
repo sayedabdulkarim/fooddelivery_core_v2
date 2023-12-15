@@ -32,7 +32,7 @@ const getOrdersDetailsFromRestaurantId = asyncHandler(async (req, res) => {
 // @access  Private
 const updateOrderItemStatus = asyncHandler(async (req, res) => {
   const { restaurantId } = req.params;
-  const { orderId, itemId, newStatus } = req.body;
+  const { orderId, itemId, newStatus, cancelledReason } = req.body;
 
   // console.log(
   //   {
@@ -51,6 +51,10 @@ const updateOrderItemStatus = asyncHandler(async (req, res) => {
 
   if (!order) {
     return res.status(404).json({ message: "Order not found." });
+  }
+
+  if (newStatus === "reject" && cancelledReason) {
+    order.cancelledReason = cancelledReason;
   }
 
   // Find the item in the order and update its status

@@ -32,8 +32,9 @@ const Index = ({
       orderId: _id,
       itemId: items[0]?._id,
       newStatus: data?.action,
+      cancelledReason: data?.action === "reject" ? data?.reason : "",
     };
-    console.log({ payload, items }, " pp");
+    console.log({ payload, items, data }, " pp");
 
     ///
     try {

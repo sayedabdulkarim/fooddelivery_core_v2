@@ -55,8 +55,8 @@ const OrderActionModal = ({
             rules={[{ required: true, message: "Please select a reason" }]}
           >
             <Radio.Group>
-              <Radio value="restaurantClosed">Restaurant Closed</Radio>
-              <Radio value="outOfStock">Out of Stock</Radio>
+              <Radio value="Restaurant Closed">Restaurant Closed</Radio>
+              <Radio value="Out Of Stock">Out of Stock</Radio>
               <Radio value="other">Other</Radio>
             </Radio.Group>
           </Form.Item>

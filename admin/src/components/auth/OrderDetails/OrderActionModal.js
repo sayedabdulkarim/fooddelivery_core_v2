@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Radio, Select, Button, Form } from "antd";
+import { Modal, Radio, Select, Button, Form, Input } from "antd";
 
 const { Option } = Select;
 
@@ -11,16 +11,22 @@ const OrderActionModal = ({
 }) => {
   const [form] = Form.useForm();
   const [action, setAction] = useState("accept");
+  const [reason, setReason] = useState("");
 
   useEffect(() => {
     // Reset form when the modal is closed or a new item is selected
     form.resetFields();
     setAction("accept");
+    setReason("");
   }, [isModalVisible, selectedItem, form]);
 
   const onFormFinish = (values) => {
     handleOrderAction(values);
     setIsModalVisible(false);
+  };
+
+  const onReasonChange = (e) => {
+    setReason(e.target.value);
   };
 
   return (
@@ -34,7 +40,7 @@ const OrderActionModal = ({
       <Form
         form={form}
         onFinish={onFormFinish}
-        initialValues={{ action: "accept", reason: "" }}
+        initialValues={{ action: "accept", reason: "", otherReason: "" }}
       >
         <Form.Item
           name="action"
@@ -50,16 +56,33 @@ const OrderActionModal = ({
         </Form.Item>
 
         {action === "reject" && (
-          <Form.Item
-            name="reason"
-            rules={[{ required: true, message: "Please select a reason" }]}
-          >
-            <Radio.Group>
-              <Radio value="Restaurant Closed">Restaurant Closed</Radio>
-              <Radio value="Out Of Stock">Out of Stock</Radio>
-              <Radio value="other">Other</Radio>
-            </Radio.Group>
-          </Form.Item>
+          <>
+            <Form.Item
+              name="reason"
+              rules={[{ required: true, message: "Please select a reason" }]}
+            >
+              <Radio.Group onChange={onReasonChange}>
+                <Radio value="Restaurant Closed">Restaurant Closed</Radio>
+                <Radio value="Out Of Stock">Out of Stock</Radio>
+                <Radio value="other">Other</Radio>
+              </Radio.Group>
+            </Form.Item>
+
+            {reason === "other" && (
+              <Form.Item
+                name="otherReason"
+                rules={[
+                  { required: true, message: "Please provide a reason" },
+                  {
+                    max: 30,
+                    message: "Reason cannot be longer than 30 characters",
+                  },
+                ]}
+              >
+                <Input placeholder="Specify reason" />
+              </Form.Item>
+            )}
+          </>
         )}
 
         <Form.Item>

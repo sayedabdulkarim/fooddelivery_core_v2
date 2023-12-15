@@ -32,7 +32,12 @@ const Index = ({
       orderId: _id,
       itemId: items[0]?._id,
       newStatus: data?.action,
-      cancelledReason: data?.action === "reject" ? data?.reason : "",
+      cancelledReason:
+        data?.action === "reject"
+          ? data?.reason === "other"
+            ? data?.otherReason
+            : data?.reason
+          : "",
     };
     console.log({ payload, items, data }, " pp");
 

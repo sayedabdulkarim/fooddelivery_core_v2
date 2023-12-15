@@ -46,7 +46,8 @@ const ItemSchema = new mongoose.Schema({
 
 const MenuCategorySchema = new mongoose.Schema({
   categoryName: { type: String, required: true },
-  items: [{ type: ItemSchema, _id: false }],
+  // items: [{ type: ItemSchema, _id: false }],
+  items: [{ type: ItemSchema }],
 });
 
 const RestaurantDetails = new mongoose.Schema({

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Radio, Select, Button, Form, Input } from "antd";
+import { Modal, Radio, Select, Button, Form, Input, Checkbox } from "antd";
 
 const { Option } = Select;
 
@@ -12,21 +12,26 @@ const OrderActionModal = ({
   const [form] = Form.useForm();
   const [action, setAction] = useState("accept");
   const [reason, setReason] = useState("");
+  const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
-    // Reset form when the modal is closed or a new item is selected
     form.resetFields();
     setAction("accept");
     setReason("");
+    setCheckedItems([]);
   }, [isModalVisible, selectedItem, form]);
 
   const onFormFinish = (values) => {
-    handleOrderAction(values);
+    handleOrderAction({ ...values, checkedItems });
     setIsModalVisible(false);
   };
 
   const onReasonChange = (e) => {
     setReason(e.target.value);
+  };
+
+  const onCheckboxChange = (checkedValues) => {
+    setCheckedItems(checkedValues);
   };
 
   return (
@@ -67,6 +72,29 @@ const OrderActionModal = ({
                 <Radio value="other">Other</Radio>
               </Radio.Group>
             </Form.Item>
+
+            {reason === "Out Of Stock" && (
+              <Form.Item
+                name="outOfStockItems"
+                rules={[
+                  {
+                    required: true,
+                    message:
+                      "Please select at least one item that is out of stock",
+                    type: "array",
+                    min: 1,
+                  },
+                ]}
+              >
+                <Checkbox.Group onChange={onCheckboxChange}>
+                  {selectedItem?.items?.map((item) => (
+                    <Checkbox key={item._id} value={item.name}>
+                      {item.name}
+                    </Checkbox>
+                  ))}
+                </Checkbox.Group>
+              </Form.Item>
+            )}
 
             {reason === "other" && (
               <Form.Item
